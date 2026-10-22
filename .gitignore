@@ -1,0 +1,14 @@
+.venv/
+**/.venv/
+**/__pycache__/
+*.pyc
+koita_stage1/generated/
+koita_stage1/sample_first_page.jpg
+*.hwpx
+*.hwp
+*.sqlite*
+*.csv
+*.log
+.env*
+!*.example
+tmp/
