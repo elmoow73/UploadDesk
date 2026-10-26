@@ -88,7 +88,9 @@ class LoginWorker(QThread):
                 browser = None
                 for channel in ('chrome', 'msedge'):
                     try:
-                        browser = pw.chromium.launch(channel=channel, headless=False)
+                        browser = pw.chromium.launch(
+                            channel=channel, headless=False,
+                            args=['--window-size=1980,1080'])
                         break
                     except Error:
                         continue
@@ -96,7 +98,8 @@ class LoginWorker(QThread):
                     self.status.emit('Chrome 또는 Edge 실행 실패. 브라우저 설치와 회사 보안 정책을 확인해 주세요.')
                     return
                 try:
-                    context = browser.new_context(accept_downloads=False)
+                    # Let every page, including the admin popup, follow its window size.
+                    context = browser.new_context(accept_downloads=False, no_viewport=True)
                     page = context.new_page()
                     page.set_default_timeout(8000)
                     self.status.emit('그룹웨어 로그인 페이지를 여는 중…')

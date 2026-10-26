@@ -1,5 +1,15 @@
 # 변경 이력
 
+## 1.1.1 — 2026-10-26
+
+- 변경 내용: Responsive-browser-window-with-1980x1080-default
+- 호환성: Backward-compatible
+
+## 1.1.1 변경 사항
+
+- 업로드 브라우저의 기본 창 크기를 1980×1080으로 설정하고, 창 크기 변경 시 페이지 표시 영역도 함께 조정하도록 수정. UploadDesk와 UploadDeskIR52에 공통 적용.
+- 호환성: 기존 로그인·등록 기능 유지.
+
 ## 1.1.0 — 2026-10-26
 
 - 변경 내용: UploadDesk-and-UploadDeskIR52-English-launchers-and-IR52-article-upload
