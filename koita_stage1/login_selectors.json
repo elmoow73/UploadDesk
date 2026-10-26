@@ -1,0 +1,11 @@
+{
+  "verified": true,
+  "evidence": "2026-10-22 실제 DOM과 사용자 제공 HTML 확인. 화면에 표시되는 label[for=LoginButton] 클릭. 인증 후 성공·실패 표시는 아직 미확인.",
+  "login_url": "https://gw.koita.or.kr/",
+  "frame_selector": null,
+  "username": "#uid",
+  "password": "#upw",
+  "submit": "label[for=\"LoginButton\"]",
+  "success": null,
+  "failure": null
+}

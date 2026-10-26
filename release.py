@@ -14,6 +14,7 @@ import tempfile
 ROOT = Path(__file__).resolve().parent
 VERSION = ROOT / 'VERSION.json'
 CONFIG = ROOT / 'release_config.json'
+LEGACY_LAUNCHERS = ['실행.cmd', '설치.cmd', 'GitHub 업로드.cmd', 'UploadingIR52.cmd', 'UploadingIR52-README.md']
 
 
 def next_version(current, bump):
@@ -41,11 +42,12 @@ def git(*args, capture=False, check=True):
 def release_files():
     # Explicit source allowlist: never stage the whole working directory.
     fixed = ['VERSION.json', 'release_config.json', 'CHANGELOG.md', 'AGENTS.md',
-             '.gitignore', 'README.md', 'release.py', '실행.cmd', '설치.cmd', 'GitHub 업로드.cmd',
-             '등록페이지 코드.txt']
+             '.gitignore', 'README.md', 'release.py', 'Run.cmd', 'Setup.cmd', 'PublishGitHub.cmd',
+             'RegistrationPageCode.txt', 'UploadDeskIR52.cmd', 'UploadDeskIR52-README.md']
     source = ROOT / 'koita_stage1'
     files = fixed + [p.relative_to(ROOT).as_posix() for p in source.glob('*.py')]
-    files += ['koita_stage1/requirements.txt', 'koita_stage1/README.md', 'koita_stage1/.gitignore']
+    files += ['koita_stage1/requirements.txt', 'koita_stage1/README.md', 'koita_stage1/.gitignore',
+              'koita_stage1/login_selectors.json']
     return sorted(path for path in files if (ROOT / path).is_file())
 
 
@@ -65,12 +67,12 @@ def write_metadata(state, target, bump, summary):
 
 def package_release(version, directory=None):
     directory = Path(directory) if directory else ROOT.parent
-    destination = directory / f'UploadingMan-v{version}.zip'
+    destination = directory / f'UploadDesk-v{version}.zip'
     if destination.exists():
         raise ValueError('같은 버전의 ZIP이 이미 있습니다. 기존 배포 파일을 덮어쓰지 않습니다.')
     files = release_files()
-    prefix = f'UploadingMan-v{version}/'
-    descriptor, temporary = tempfile.mkstemp(prefix='UploadingMan-', suffix='.zip.tmp', dir=directory)
+    prefix = f'UploadDesk-v{version}/'
+    descriptor, temporary = tempfile.mkstemp(prefix='UploadDesk-', suffix='.zip.tmp', dir=directory)
     os.close(descriptor)
     try:
         with zipfile.ZipFile(temporary, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
@@ -118,7 +120,7 @@ def publish(args):
     if local_only:
         if args.push_only or publish_current:
             raise ValueError('local-only는 새 버전 확정에만 사용합니다.')
-        if (ROOT.parent / f'UploadingMan-v{target}.zip').exists():
+        if (ROOT.parent / f'UploadDesk-v{target}.zip').exists():
             raise ValueError('같은 버전의 ZIP이 이미 있습니다.')
         write_metadata(state, target, args.bump, args.summary)
         package_release(target)
@@ -141,22 +143,25 @@ def publish(args):
                 raise ValueError('Git 작성자 이름/이메일 설정이 필요합니다. 전역 설정은 자동 변경하지 않습니다.')
         allowed = release_files()
         staged = git('-c', 'core.quotepath=false', 'diff', '--cached', '--name-only', capture=True).stdout.splitlines()
-        if set(staged) - set(allowed):
+        if set(staged) - set(allowed) - set(LEGACY_LAUNCHERS):
             raise ValueError('배포 허용 목록 밖의 파일이 스테이징되어 있습니다. 검토 후 다시 실행하세요.')
         if git('rev-parse', '--verify', f'refs/tags/v{target}', capture=True, check=False).returncode == 0:
             raise ValueError('같은 버전 태그가 이미 있습니다. 업로드 재시도에는 --push-only를 사용하세요.')
         if not publish_current:
             write_metadata(state, target, args.bump, args.summary)
             package_release(target)
-        git('add', '--', *allowed)
+        obsolete = [path for path in LEGACY_LAUNCHERS
+                    if not (ROOT / path).exists()
+                    and git('ls-files', '--', path, capture=True).stdout.strip()]
+        git('add', '--all', '--', *allowed, *obsolete)
         git('commit', '-m', f'Release v{target}: {args.summary.strip()}')
-        git('tag', '-a', f'v{target}', '-m', f'UploadingMan {target}')
+        git('tag', '-a', f'v{target}', '-m', f'UploadDesk {target}')
     else:
         if git('rev-parse', f'v{target}^{{commit}}', capture=True).stdout != git('rev-parse', 'HEAD', capture=True).stdout:
             raise ValueError('현재 HEAD와 버전 태그가 다릅니다. 업로드 대상을 검토하세요.')
     # Both updates succeed together or neither is pushed; never force-push.
     git('push', '--atomic', 'origin', f'HEAD:refs/heads/{branch}', f'refs/tags/v{target}')
-    print(f'Published UploadingMan v{target}')
+    print(f'Published UploadDesk v{target}')
 
 
 def main():

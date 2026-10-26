@@ -1,14 +1,14 @@
-# UploadingMan
+# UploadDesk
 
 KOITA 보도자료 등록 화면의 입력을 준비하는 Windows 프로그램입니다. 현재 버전은 `VERSION.json`과 프로그램 제목 표시줄에서 확인할 수 있습니다.
 
 ## 실행
 
-`실행.cmd`를 더블 클릭합니다. 상세 사용법은 `koita_stage1/README.md`를 참고하세요. 한글 데스크톱 프로그램, Chrome 또는 Edge, Python이 필요합니다. 다른 PC에서는 `koita_stage1/requirements.txt`로 패키지를 설치해야 합니다. 로그인 비밀번호는 저장/로그 기록하지 않으며 최종 게시물 저장은 자동으로 누르지 않습니다.
+`Run.cmd`를 더블 클릭합니다. 상세 사용법은 `koita_stage1/README.md`를 참고하세요. 한글 데스크톱 프로그램, Chrome 또는 Edge, Python이 필요합니다. 다른 PC에서는 `koita_stage1/requirements.txt`로 패키지를 설치해야 합니다. 로그인 비밀번호는 저장/로그 기록하지 않으며 최종 게시물 저장은 자동으로 누르지 않습니다.
 
-ZIP은 소스와 설치·실행 파일을 담은 배포본입니다. 다른 폴더나 PC에 압축을 풀면 `설치.cmd`를 먼저 실행한 후 `실행.cmd`를 사용하세요. 가상환경은 경로가 바뀌면 재사용하기 어려워 ZIP에 넣지 않습니다. 원본 HWPX, News DB, 생성 이미지와 비밀번호도 포함하지 않습니다.
+ZIP은 소스와 설치·실행 파일을 담은 배포본입니다. 다른 폴더나 PC에 압축을 풀면 `Setup.cmd`를 먼저 실행한 후 `Run.cmd`를 사용하세요. 가상환경은 경로가 바뀌면 재사용하기 어려워 ZIP에 넣지 않습니다. 원본 HWPX, News DB, 생성 이미지와 비밀번호도 포함하지 않습니다.
 
-승인된 모든 버전은 프로젝트 상위 폴더에 `UploadingMan-vX.Y.Z.zip`으로 생성하고 무결성·내부 버전·소스 일치를 검사합니다. 먼저 로컬 버전 확정과 ZIP만 만들려면 `release.py --local-only --bump initial --summary "최초 정식 배포" --approve`를 사용합니다. 이후 이미 확정한 버전을 GitHub에 올릴 때는 `release.py --publish-current --approve`를 사용합니다. 다음 버전부터는 major/minor/patch에 맞춰 같은 ZIP 작업을 반복합니다.
+승인된 모든 버전은 프로젝트 상위 폴더에 `UploadDesk-vX.Y.Z.zip`으로 생성하고 무결성·내부 버전·소스 일치를 검사합니다. 먼저 로컬 버전 확정과 ZIP만 만들려면 `release.py --local-only --bump initial --summary "최초 정식 배포" --approve`를 사용합니다. 이후 이미 확정한 버전을 GitHub에 올릴 때는 `release.py --publish-current --approve`를 사용합니다. 다음 버전부터는 major/minor/patch에 맞춰 같은 ZIP 작업을 반복합니다.
 
 ## 버전 정책
 

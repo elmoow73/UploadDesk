@@ -163,7 +163,7 @@ class GuiTests(unittest.TestCase):
         from app import Window
         from PySide6.QtWidgets import QLineEdit
         window = Window()
-        self.assertFalse(window.fill_form.isChecked())
+        self.assertTrue(window.fill_form.isChecked())
         self.assertEqual(window.password.echoMode(), QLineEdit.EchoMode.Password)
         window.start_test()
         self.assertIsNone(window.worker)

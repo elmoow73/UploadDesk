@@ -140,7 +140,7 @@ class Window(QWidget):
         except (OSError, ValueError):
             release_version = None
         version_label = f'v{release_version}' if release_version else '정식 버전 승인 대기'
-        self.setWindowTitle(f'UploadingMan · {version_label}')
+        self.setWindowTitle(f'UploadDesk · {version_label}')
         self.resize(620, 330)
         self.user = QLineEdit()
         self.password = QLineEdit()
@@ -181,8 +181,8 @@ class Window(QWidget):
         related_row.addWidget(self.related_button)
         related_row.addWidget(self.related_summary)
         form.addRow('관련사이트 (선택)', related_row)
-        self.fill_form = QCheckBox('등록 페이지 도착 후 내용 자동 입력 (선택 시 실행)')
-        self.fill_form.setChecked(False)
+        self.fill_form = QCheckBox('등록 페이지 도착 후 내용 자동 입력 (선택 해제 시 본문 입력하지 않음)')
+        self.fill_form.setChecked(True)
         self.run_button = QPushButton('로그인 후 등록 페이지 열기')
         self.run_button.clicked.connect(self.start_test)
         self.stop_button = QPushButton('테스트 종료 / 브라우저 닫기')

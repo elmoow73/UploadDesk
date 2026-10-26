@@ -7,7 +7,7 @@ import tempfile
 import json
 import zipfile
 
-spec = importlib.util.spec_from_file_location('uploadingman_release', Path(__file__).resolve().parent.parent / 'release.py')
+spec = importlib.util.spec_from_file_location('uploaddesk_release', Path(__file__).resolve().parent.parent / 'release.py')
 release = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(release)
 
@@ -15,7 +15,7 @@ spec.loader.exec_module(release)
 class ReleaseTests(unittest.TestCase):
     def test_versioned_zip_matches_sources_and_omits_runtime_files(self):
         with tempfile.TemporaryDirectory() as temporary:
-            root = Path(temporary) / 'UploadingMan'
+            root = Path(temporary) / 'UploadDesk'
             root.mkdir()
             (root / 'VERSION.json').write_text(json.dumps({'version': '1.0.0'}), encoding='utf-8')
             (root / 'README.md').write_text('release fixture', encoding='utf-8')
@@ -25,10 +25,10 @@ class ReleaseTests(unittest.TestCase):
             (source / 'private.hwpx').write_bytes(b'private fixture')
             with patch.object(release, 'ROOT', root):
                 output = release.package_release('1.0.0')
-                self.assertEqual(output.name, 'UploadingMan-v1.0.0.zip')
+                self.assertEqual(output.name, 'UploadDesk-v1.0.0.zip')
                 with zipfile.ZipFile(output) as archive:
                     self.assertIsNone(archive.testzip())
-                    self.assertEqual(json.loads(archive.read('UploadingMan-v1.0.0/VERSION.json'))['version'], '1.0.0')
+                    self.assertEqual(json.loads(archive.read('UploadDesk-v1.0.0/VERSION.json'))['version'], '1.0.0')
                     self.assertFalse(any(name.endswith('.hwpx') for name in archive.namelist()))
                 with self.assertRaises(ValueError):
                     release.package_release('1.0.0')

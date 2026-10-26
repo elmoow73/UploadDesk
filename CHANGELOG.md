@@ -1,5 +1,20 @@
 # 변경 이력
 
+## 1.1.0 — 2026-10-26
+
+- 변경 내용: UploadDesk-and-UploadDeskIR52-English-launchers-and-IR52-article-upload
+- 호환성: Backward-compatible
+
+## 1.1.0 변경 사항
+
+- 프로그램명을 UploadDesk, IR52 프로그램명을 UploadDeskIR52로 변경.
+- 실행·설치·GitHub 배포 파일명을 Run.cmd, Setup.cmd, PublishGitHub.cmd로 변경하고 문서와 배포 ZIP 이름을 갱신. 기존 업로드 기능은 유지하며 실행 파일 바로가기는 새 이름으로 변경 필요.
+- 내용 자동 입력을 프로그램 시작 시 기본 체크로 변경.
+- 안내 문구를 ‘등록 페이지 도착 후 내용 자동 입력 (선택 해제 시 본문 입력하지 않음)’으로 변경.
+- 체크 해제로 기존 수동 진행 가능.
+- UploadDeskIR52의 매일경제 기사 불러오기, DB 선택 및 기사 등록 폼 자동 입력 기능 추가. 실제 로그인·등록 화면 검증은 아직 미수행.
+- 호환성: 기존 업로드 기능과 수동 입력 선택을 유지. 이름이 바뀐 실행 파일의 기존 바로가기는 수정 필요.
+
 ## 1.0.0 — 2026-10-22
 
 - 변경 내용: Initial-stable-release
